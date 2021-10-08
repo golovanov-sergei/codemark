@@ -1,12 +1,18 @@
 package com.codemark.codemark.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.Set;
 
+@Entity
 public class Users {
+    @Id
     private String login; //as a primary key???
     private String firstName;
     private String lastName;
     private String password;
+    @ManyToMany(mappedBy = "users")
     private Set<Roles> roles;
 
     public Users() {
