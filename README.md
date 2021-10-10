@@ -31,3 +31,32 @@ POST /api/users - добавить пользователя из тела зап
 POST /api/roles - добавить роль из тела запроса в формате json. 
 PUT /api/users - изменить пользователя из тела запроса в формате json.
 DELETE /api/users/{login} - удалить пользователя по первичному ключу {login}
+
+Примеры json для тела POST запросов
+1. POST /api/users 
+{
+   "userLogin": "userlogin",
+   "userName": "User Name",
+   "password": "Password1"
+}
+Создаст пользователя "userlogin" без ролей
+
+2. POST /api/roles
+{
+   "roleName": "Admin"
+}
+Создаст роль "Admin"
+
+3. PUT /api/users
+{
+   "userLogin": "userlogin",
+   "userName": "New Name",
+   "password": "Password2",
+   "roles": [
+   {
+   "id": 1,
+   "roleName": "Admin"
+   }            
+   ]
+}
+Отредактирует пользователя "userlogin", назначит ему роль "Admin"
