@@ -23,7 +23,7 @@
 
 
 
-Endpoints
+**Endpoints**
 
 GET /api/users - получить список всех пользователей
 
@@ -39,29 +39,29 @@ PUT /api/users - изменить пользователя из тела зап�
 
 DELETE /api/users/{login} - удалить пользователя по первичному ключу {login}
 
-Примеры json для тела POST запросов
+**Примеры json для тела POST запросов**
 
-1. POST /api/users 
+**1. POST /api/users** 
 
-{
+_{
    "userLogin": "userlogin",
    "userName": "User Name",
    "password": "Password1"
-}
+}_
 
 Создаст пользователя "userlogin" без ролей
 
-2. POST /api/roles
+**2. POST /api/roles**
 
-{
+_{
    "roleName": "Admin"
-}
+}_
 
 Создаст роль "Admin"
 
-3. PUT /api/users
+**3. PUT /api/users**
 
-{
+_{
    "userLogin": "userlogin",
    "userName": "New Name",
    "password": "Password2",
@@ -71,6 +71,6 @@ DELETE /api/users/{login} - удалить пользователя по пер�
    "roleName": "Admin"
    }            
    ]
-}
+}_
 
 Отредактирует пользователя "userlogin", назначит ему роль "Admin"
