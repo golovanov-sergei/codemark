@@ -35,7 +35,7 @@ public class User {
     }
 
     @JsonProperty(value = "userName")
-    public String geName() {
+    public String getUserName() {
         return userName;
     }
 
