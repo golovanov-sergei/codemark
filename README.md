@@ -21,7 +21,10 @@
 
 Решение должно быть реализовано на языке Java,  платформе Spring Framework / Springboot, использовать Spring Data или Hibernate в качестве ORM, и быть выложено в git (bitbucket или github). Базу данных для задачи можно выбрать любую и создать любым способом, на ваше усмотрение - автосоздание таблиц hibernate, скрипт создания create_schema.sql, допускается использовать in-memory БД. 
 
-
+**Запуск приложения на Java 11**
+java -jar codemark-0.0.1.jar
+адрес для запросов
+http://localhost:8080
 
 **Endpoints**
 
