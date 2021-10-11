@@ -1,5 +1,7 @@
 package com.codemark.codemark.service;
 
+//Имплементация сервиса работы с пользователями
+
 import com.codemark.codemark.model.User;
 import com.codemark.codemark.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

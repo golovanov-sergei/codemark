@@ -1,5 +1,8 @@
 package com.codemark.codemark.model;
 
+//Модель данных Role
+//Role POJO
+
 import javax.persistence.*;
 
 @Entity

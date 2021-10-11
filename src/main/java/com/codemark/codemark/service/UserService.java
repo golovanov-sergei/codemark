@@ -1,5 +1,7 @@
 package com.codemark.codemark.service;
 
+//Контракт для реализации сервиса работы с пользователями
+
 import com.codemark.codemark.model.User;
 
 import java.util.List;

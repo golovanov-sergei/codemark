@@ -1,5 +1,7 @@
 package com.codemark.codemark.service;
 
+//Имплементация сервиса работы с ролями
+
 import com.codemark.codemark.model.Role;
 import com.codemark.codemark.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

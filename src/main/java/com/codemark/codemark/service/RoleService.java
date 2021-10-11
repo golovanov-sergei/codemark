@@ -1,5 +1,7 @@
 package com.codemark.codemark.service;
 
+//Контракт для реализации сервиса работы с ролями
+
 import com.codemark.codemark.model.Role;
 
 import java.util.List;

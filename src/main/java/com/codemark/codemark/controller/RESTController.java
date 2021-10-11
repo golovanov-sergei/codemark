@@ -1,5 +1,7 @@
 package com.codemark.codemark.controller;
 
+//главный контроллер приложения
+
 import com.codemark.codemark.exceptionhandler.Response;
 import com.codemark.codemark.exceptionhandler.DatabaseException;
 import com.codemark.codemark.exceptionhandler.UserSaveException;
@@ -54,19 +56,7 @@ public class RESTController {
 
     @PostMapping("/users")
     public ResponseEntity<Response> saveUser(@RequestBody User user) {
-//
-//        if (StringUtils.isEmpty(user.getUserLogin())){
-//            throw new UserSaveException("Required field LOGIN not filled");
-//        }
-//        if (userService.getUser(user.getUserLogin())!=null){
-//            throw new UserSaveException("User ("+user.getUserLogin()+") already exists");
-//        }
-//        if (StringUtils.isEmpty(user.getPassword())){
-//            throw new UserSaveException("Required field PASSWORD not filled");
-//        }
-//        if (StringUtils.passwordNotValid(user.getPassword())){
-//            throw new UserSaveException("Required field PASSWORD not valid");
-//        }
+
         validateUserData(user, true);
         userService.saveUser(user);
         Response response = new Response();

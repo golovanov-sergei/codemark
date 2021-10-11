@@ -1,5 +1,6 @@
 package com.codemark.codemark.exceptionhandler;
 
+//Класс, который будет возвращать ответ в формате json при добавлении и редактировании данных
 public class Response {
     private boolean success;
     private String errors;

@@ -1,5 +1,7 @@
 package com.codemark.codemark.utils;
 
+//Абстрактные методы для работы со строковыми данными
+
 public final class StringUtils {
     public static boolean isEmpty(String string){
         return string.length()==0;

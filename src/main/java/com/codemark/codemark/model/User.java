@@ -1,5 +1,8 @@
 package com.codemark.codemark.model;
 
+//Модель данных User
+//User POJO
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
