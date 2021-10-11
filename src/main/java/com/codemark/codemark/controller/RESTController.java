@@ -1,12 +1,13 @@
 package com.codemark.codemark.controller;
 
 import com.codemark.codemark.exceptionhandler.Response;
-import com.codemark.codemark.exceptionhandler.UserNotFoundException;
+import com.codemark.codemark.exceptionhandler.DatabaseException;
 import com.codemark.codemark.exceptionhandler.UserSaveException;
 import com.codemark.codemark.model.Role;
 import com.codemark.codemark.model.User;
 import com.codemark.codemark.service.RoleService;
 import com.codemark.codemark.service.UserService;
+import com.codemark.codemark.utils.StringUtils;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -44,7 +45,7 @@ public class RESTController {
         FilterProvider filterProvider = new SimpleFilterProvider().addFilter("userFilter", simpleBeanPropertyFilter);
         User user = userService.getUser(login);
         if (user==null){
-            throw new UserNotFoundException("User ("+login+") not found!");
+            throw new DatabaseException("User ("+login+") not found!");
         }
         MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(user);
         mappingJacksonValue.setFilters(filterProvider);
@@ -53,20 +54,20 @@ public class RESTController {
 
     @PostMapping("/users")
     public ResponseEntity<Response> saveUser(@RequestBody User user) {
-        String strRegEx = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
-        if (user.getUserLogin().length()==0){
-            throw new UserSaveException("Required field LOGIN not filled");
-        }
-        if (userService.getUser(user.getUserLogin())!=null){
-            throw new UserSaveException("User ("+user.getUserLogin()+") already exists");
-        }
-        if (user.getPassword().length()==0){
-            throw new UserSaveException("Required field PASSWORD not filled");
-        }
-        if (!user.getPassword().matches(strRegEx)){
-            throw new UserSaveException("Required field PASSWORD not valid");
-        }
-
+//
+//        if (StringUtils.isEmpty(user.getUserLogin())){
+//            throw new UserSaveException("Required field LOGIN not filled");
+//        }
+//        if (userService.getUser(user.getUserLogin())!=null){
+//            throw new UserSaveException("User ("+user.getUserLogin()+") already exists");
+//        }
+//        if (StringUtils.isEmpty(user.getPassword())){
+//            throw new UserSaveException("Required field PASSWORD not filled");
+//        }
+//        if (StringUtils.passwordNotValid(user.getPassword())){
+//            throw new UserSaveException("Required field PASSWORD not valid");
+//        }
+        validateUserData(user, true);
         userService.saveUser(user);
         Response response = new Response();
         response.setSuccess(true);
@@ -75,9 +76,17 @@ public class RESTController {
 
     @PutMapping("/users")
     public ResponseEntity<Response> updateUser(@RequestBody User user) {
+        validateUserData(user, false);
         String login=user.getUserLogin();
         if (userService.getUser(login)==null){
-            throw new UserNotFoundException("User ("+login+") not found!");
+            throw new DatabaseException("User ("+login+") not found!");
+        }
+
+        for (Role roleIter:user.getRoles()) {
+            if (roleService.getRole(roleIter.getId())==null){
+                throw new DatabaseException("Role id=("+roleIter.getId()+") not found!");
+            }
+            
         }
         userService.saveUser(user);
         Response response = new Response();
@@ -115,7 +124,7 @@ public class RESTController {
     public ResponseEntity<Response> deleteUser(@PathVariable String login){
         User user = userService.getUser(login);
         if (user==null){
-            throw new UserNotFoundException("User ("+login+") not found!");
+            throw new DatabaseException("User ("+login+") not found!");
         }
         userService.deleteUser(login);
         Response response = new Response();
@@ -124,7 +133,7 @@ public class RESTController {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Response> handleException(UserNotFoundException exception){
+    public ResponseEntity<Response> handleException(DatabaseException exception){
         Response response = new Response();
         response.setSuccess(false);
         response.setErrors(exception.getMessage());
@@ -136,5 +145,20 @@ public class RESTController {
         response.setSuccess(false);
         response.setErrors(exception.getMessage());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private void validateUserData(User user, Boolean isANewUser){
+        if (user.getUserLogin()==null || StringUtils.isEmpty(user.getUserLogin())){
+            throw new UserSaveException("Required field LOGIN not filled");
+        }
+        if (isANewUser && userService.getUser(user.getUserLogin())!=null){
+            throw new UserSaveException("User ("+user.getUserLogin()+") already exists");
+        }
+        if (StringUtils.isEmpty(user.getPassword())){
+            throw new UserSaveException("Required field PASSWORD not filled");
+        }
+        if (StringUtils.passwordNotValid(user.getPassword())){
+            throw new UserSaveException("Required field PASSWORD not valid");
+        }
     }
 }
