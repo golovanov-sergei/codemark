@@ -11,4 +11,5 @@ public interface UserService {
     public void saveUser(User user);
     public User getUser(String login);
     public void deleteUser(String login);
+    public void validateUserData(User user, Boolean isANewUser);
 }

@@ -57,7 +57,7 @@ public class RESTController {
     @PostMapping("/users")
     public ResponseEntity<Response> saveUser(@RequestBody User user) {
 
-        validateUserData(user, true);
+        userService.validateUserData(user, true);
         userService.saveUser(user);
         Response response = new Response();
         response.setSuccess(true);
@@ -66,7 +66,7 @@ public class RESTController {
 
     @PutMapping("/users")
     public ResponseEntity<Response> updateUser(@RequestBody User user) {
-        validateUserData(user, false);
+        userService.validateUserData(user, false);
         String login=user.getUserLogin();
         if (userService.getUser(login)==null){
             throw new DatabaseException("User ("+login+") not found!");
@@ -137,18 +137,5 @@ public class RESTController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private void validateUserData(User user, Boolean isANewUser){
-        if (user.getUserLogin()==null || StringUtils.isEmpty(user.getUserLogin())){
-            throw new UserSaveException("Required field LOGIN not filled");
-        }
-        if (isANewUser && userService.getUser(user.getUserLogin())!=null){
-            throw new UserSaveException("User ("+user.getUserLogin()+") already exists");
-        }
-        if (StringUtils.isEmpty(user.getPassword())){
-            throw new UserSaveException("Required field PASSWORD not filled");
-        }
-        if (StringUtils.passwordNotValid(user.getPassword())){
-            throw new UserSaveException("Required field PASSWORD not valid");
-        }
-    }
+
 }
